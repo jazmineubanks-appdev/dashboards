@@ -3,10 +3,10 @@
   <p>Go <a href="/">back</a>.</p>
 
   <ul>
-  <% @array_of_symbols.each do |a_symbol| %>
+  <% @array_of_symbols.each do |symbol| %>
   <li>
-  <a href="/forex/<%= a_symbol %>">
-  Convert 1 <%= a_symbol %> to...
+  <a href="/forex/<%= symbol %>">
+  Convert 1 <%= symbol %> to...
   </a>
   </li>
   <% end %>

@@ -20,7 +20,7 @@ class CurrenciesController < ApplicationController
     #params are
     #parameters: {"from_currency"="ARS"}
 
-    @from_symbol = params.fetch("from_currency")
+    @first_symbol = params.fetch("currency_symbol")
 
     render({ :template => "currency_templates/step_two.html.erb" })
   end
@@ -29,11 +29,11 @@ class CurrenciesController < ApplicationController
     @first = params.fetch("first_currency")
     @second = params.fetch("second_currency")
 
-    @raw_data = open("https://api.exchnagerate.host/convert?from=#{@from_symbol}&to=#{@to_sumbol}").read
-    @parsed_data = JSON.parse(@raw_data)
+    @currency_raw = open("https://api.exchnagerate.host/convert?from=#{@first}&to=#{@second}").read
+    @parsed_currency_data = JSON.parse(@currency_raw)
 
-    @result = @parsed_data.fetch("info").fetch("rate")
+    @exchange_rate = @parsed_currency_data.fetch("info").fetch("rate")
 
-    render({ :template => "currency_templates/step_three.html.erb"})
+    render({ :template => "currency_templates/results.html.erb"})
   end
 end
