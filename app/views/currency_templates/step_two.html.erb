@@ -2,18 +2,13 @@
 
 <p>Go <a href="/forex">back</a>.</p>
 
-
-
-
 <ul>
-<% @array_of_symbols.each do |symbol| %>
-<li>
-<a href="/forex/<%= @first_symbol %>/<%= symbol %>">
-Convert 1 <%= @first_symbol %> to <%= symbol %>...
-</a>
-</li>
-<% end %>
-
-
-
+  <% @array_of_symbols.each do |symbol| %>
+    <li>
+      <a href="/forex/<%= @first_symbol %>/<%= symbol %>">
+        Convert 1 <%= @first_symbol %> to <%= symbol %>...
+      </a>
+    </li>
+  <% end %>
 </ul>
+

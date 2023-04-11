@@ -1,15 +1,11 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  # Root route
+  root "application#index"
 
-get("/", { :controller => "application", :action => "index"})
+  # Routes for CurrenciesController
+  get "/forex", { :controller => "currencies", :action => "first_currency" }
 
-get("/forex", { :controller => "currencies", :action => "first_currency"})
+  get "/forex/:currency_symbol", { :controller => "currencies", :action => "second_currency" }
 
-get("/forex/:currency_symbol", { :controller=> "currencies", :action => "second_currency"})
-
-
-get("/forex/:first_currency/:second_currency", { :controller => "currencies", :action => "conversion" })
-
-
-
+  get "/forex/:from_symbol/:to_currency", { :controller => "currencies", :action => "third_currency" }
 end

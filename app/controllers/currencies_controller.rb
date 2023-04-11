@@ -1,39 +1,39 @@
 class CurrenciesController < ApplicationController
   def first_currency
-
+    # Fetch currency symbols from external API
     @raw_data = open("https://api.exchangerate.host/symbols").read
     @parsed_data = JSON.parse(@raw_data)
-    @symbols_hash = @parsed_data.fetch("symbols")
+    @array_of_symbols = @parsed_data.fetch("symbols").keys
 
-
-    @array_of_symbols = @symbols_hash.keys
-      render({ :template => "currency_templates/step_one.html.erb" })
+    # Render template
+    render({ :template => "currency_templates/step_one.html.erb", :locals => { :array_of_symbols => @array_of_symbols } })
   end
 
   def second_currency
+    # Fetch currency symbols from external API
     @raw_data = open("https://api.exchangerate.host/symbols").read
     @parsed_data = JSON.parse(@raw_data)
     @symbols_hash = @parsed_data.fetch("symbols")
-
     @array_of_symbols = @symbols_hash.keys
 
-    #params are
-    #parameters: {"from_currency"="ARS"}
-
+    # Fetch selected currency symbol from params
     @first_symbol = params.fetch("currency_symbol")
 
-    render({ :template => "currency_templates/step_two.html.erb" })
+    # Render template
+    render({ :template => "currency_templates/step_two.html.erb", :locals => { :first_symbol => @first_symbol, :array_of_symbols => @array_of_symbols } })
   end
 
-  def conversion
-    @first = params.fetch("first_currency")
-    @second = params.fetch("second_currency")
+  def third_currency
+    # Fetch currency symbols from external API
+    @from_symbol = params.fetch("from_symbol")
+    @to_symbol = params.fetch("to_currency")
 
-    @currency_raw = open("https://api.exchnagerate.host/convert?from=#{@first}&to=#{@second}").read
-    @parsed_currency_data = JSON.parse(@currency_raw)
+    # Fetch exchange rate from external API
+    @raw_data = open("https://api.exchangerate.host/convert?from=#{@from_symbol}&to=#{@to_symbol}").read
+    @parsed_data = JSON.parse(@raw_data)
+    @exchange_rate = @parsed_data.fetch("info").fetch("rate")
 
-    @exchange_rate = @parsed_currency_data.fetch("info").fetch("rate")
-
-    render({ :template => "currency_templates/results.html.erb"})
+    # Render template
+    render({ :template => "currency_templates/step_three.html.erb", :locals => { :from_symbol => @from_symbol, :to_symbol => @to_symbol, :exchange_rate => @exchange_rate } })
   end
 end
